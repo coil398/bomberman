@@ -2,8 +2,8 @@ var express = require('express'),
     path = require('path'),
     http = require('http'),
     Recent_api = require('./routes/recent');
-    //User_api = require('./routes/token'),
-    //Room_api = require('./routes/room');
+    User_api = require('./routes/token'),
+    Room_api = require('./routes/room');
 
 var app = express();
 
@@ -14,11 +14,23 @@ app.configure(function () {
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
+// APIs for /recent
 app.post('/recent/create',Recent_api.create);
 app.delete('/recent/delete/all',Recent_api.deletetable);
 app.delete('/recent/delete/:id',Recent_api.delete);
 app.get('/recent',Recent_api.getAll);
 app.get('/recent/:id',Recent_api.get);
+
+// An API for /token
+app.post('/token/create',User_api.create_token);
+app.get('/token/index',User_api.get_list);
+app.delete('/token/delete/all',User_api.deletetable);
+
+// APIs for /room
+app.post('/room/index',Room_api.get_list);
+app.post('/room/create',Room_api.create_room);
+app.post('/room/detail',Room_api.get_detail);
+
 /*
 app.get('/recent',Recent_api.hage);
 app.post('/recent/create',Recent_api.create);

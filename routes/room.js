@@ -1,87 +1,70 @@
-var mongo = require('mongodb');
+var azure = require('azure-storage');
+var uuid = require('node-uuid');
 
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var tableSvc = azure.createTableService(
+    'sebomb',
+    'UQ6l/g2eSND/QWZrvt3snq3uSKNDjD3jVIC6dw+416FFT4925uT698UVJZ0lzgdpkzEcb03zzqmFPcRZmKPtGA==',
+    'https://sebomb.table.core.windows.net/'
+);
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('winedb', server, {safe: true});
 
-db.open(function(err, db) {
-    if(!err) {
-        console.log("Connected to 'winedb' database");
-        db.collection('wines', {safe:true}, function(err, collection) {
-            if (err) {
-                console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
-                populateDB();
-            }
-        });
-    }
+tableSvc.createTableIfNotExists('roomtable',function(err,created){
+    console.log('The roomtable got prepared.');
 });
 
-exports.findById = function(req, res) {
-    var id = req.params.id;
-    console.log('Retrieving wine: ' + id);
-    db.collection('wines', function(err, collection) {
-        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-            res.send(item);
-        });
+var entGen = azure.TableUtilities.entityGenerator;
+
+
+exports.create_room = function(req,res){
+    console.log(req.body.id + ' : ' + req.body.description);
+    id = req.body.id;
+    description = req.body.description;
+    var task = {
+        PartitionKey: entGen.String('room'),
+        RowKey: entGen.String(id),
+        description: entGen.String(description)
+    };
+
+    tableSvc.insertEntity('roomtable',task,function(error,result,res){
+        if(error){
+            tableSvc.updateEntity('roomtable',task,function(error,result,res){
+                console.log('The data updated.');
+            })
+        }
+        if(!error){
+            console.log('The data inserted.');
+        }
+    });
+
+    res.send('Completed.');
+};
+
+exports.get_list = function(req,res){
+    tableSvc.queryEntities('roomtable',null,null,function(error,result){
+        if(!error){
+            console.log('The data displayed.');
+            data = result.entries;
+            console.log(data);
+        }
+        res.send(data);
     });
 };
 
-exports.findAll = function(req, res) {
-    db.collection('wines', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-            res.send(items);
-        });
-    });
-};
-
-exports.addWine = function(req, res) {
-    var wine = req.body;
-    console.log('Adding wine: ' + JSON.stringify(wine));
-    db.collection('wines', function(err, collection) {
-        collection.insert(wine, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('Success: ' + JSON.stringify(result[0]));
-                res.send(result[0]);
-            }
-        });
+exports.get_detail = function(req,res){
+    var id = req.params.id.toString();
+    tableSvc.retrieveEntity('roomtable','recent',id,function(error,result,response){
+        if(!error){
+            console.log('The data retrieved.');
+        }
+        res.send(result);
     });
 }
 
-exports.updateWine = function(req, res) {
-    var id = req.params.id;
-    var wine = req.body;
-    delete wine._id;
-    console.log('Updating wine: ' + id);
-    console.log(JSON.stringify(wine));
-    db.collection('wines', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-            if (err) {
-                console.log('Error updating wine: ' + err);
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(wine);
-            }
-        });
-    });
-}
-
-exports.deleteWine = function(req, res) {
-    var id = req.params.id;
-    console.log('Deleting wine: ' + id);
-    db.collection('wines', function(err, collection) {
-        collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred - ' + err});
-            } else {
-                console.log('' + result + ' document(s) deleted');
-                res.send(req.body);
-            }
-        });
-    });
+exports.deletetable = function(req,res){
+    tableSvc.deleteTable('roomtable', function(error, response){
+    if(!error){
+        console.log('all deleted');
+    }
+    res.send('completed');
+  });
 }

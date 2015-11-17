@@ -1,87 +1,86 @@
-var mongo = require('mongodb');
+var azure = require('azure-storage');
+var uuid = require('node-uuid');
 
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var tableSvc = azure.createTableService(
+    'sebomb',
+    'UQ6l/g2eSND/QWZrvt3snq3uSKNDjD3jVIC6dw+416FFT4925uT698UVJZ0lzgdpkzEcb03zzqmFPcRZmKPtGA==',
+    'https://sebomb.table.core.windows.net/'
+);
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('winedb', server, {safe: true});
 
-db.open(function(err, db) {
-    if(!err) {
-        console.log("Connected to 'winedb' database");
-        db.collection('wines', {safe:true}, function(err, collection) {
-            if (err) {
-                console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
-                populateDB();
-            }
-        });
-    }
+tableSvc.createTableIfNotExists('tokentable',function(err,created){
+    console.log('The tokentable got prepared.');
 });
 
-exports.findById = function(req, res) {
-    var id = req.params.id;
-    console.log('Retrieving wine: ' + id);
-    db.collection('wines', function(err, collection) {
-        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-            res.send(item);
-        });
+var entGen = azure.TableUtilities.entityGenerator;
+
+var createEntity = function(req){
+  var id = uuid.v1();
+
+  var app_code_name = req.body.navigator.app_code_name,
+      app_name      = req.body.navigator.app_name,
+      app_version   = req.body.navigator.app_version,
+      platform      = req.body.navigator.platform,
+      userAgent     = req.body.navigator.userAgent;
+
+  var task = {
+      PartitionKey: entGen.String('token'),
+      RowKey: entGen.String(id),
+      app_code_name: entGen.String(app_code_name),
+      app_name: entGen.String(app_name),
+      app_version: entGen.String(app_version),
+      platform: entGen.String(platform),
+      userAgent: entGen.String(userAgent)
+  };
+
+  return task;
+}
+
+var sender = function(res){
+    var response = {
+        'usertoken' : 'usertoken',
+        'username' : 'username'
+    };
+
+    res.send(JSON.stringify(response));
+}
+
+exports.create_token = function(req,res){
+    var task = createEntity(req);
+
+    console.log(task);
+
+    tableSvc.insertEntity('tokentable',task,function(error,result,res){
+        if(error){
+            tableSvc.updateEntity('tokentable',task,function(error,result,res){
+                console.log('The data updated.');
+            })
+        }
+        if(!error){
+            console.log('The data inserted.');
+        }
+    });
+
+    sender(res);
+};
+
+exports.get_list = function(req,res){
+    tableSvc.queryEntities('tokentable',null,null,function(error,result){
+        if(!error){
+            console.log('The data displayed.');
+            data = result.entries;
+            console.log(data);
+            res.send(data);
+        }
+
     });
 };
 
-exports.findAll = function(req, res) {
-    db.collection('wines', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-            res.send(items);
-        });
-    });
+exports.deletetable = function(req,res){
+    tableSvc.deleteTable('tokentable', function(error, response){
+    if(!error){
+        console.log('all deleted');
+    }
+    res.send('completed');
+  });
 };
-
-exports.addWine = function(req, res) {
-    var wine = req.body;
-    console.log('Adding wine: ' + JSON.stringify(wine));
-    db.collection('wines', function(err, collection) {
-        collection.insert(wine, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('Success: ' + JSON.stringify(result[0]));
-                res.send(result[0]);
-            }
-        });
-    });
-}
-
-exports.updateWine = function(req, res) {
-    var id = req.params.id;
-    var wine = req.body;
-    delete wine._id;
-    console.log('Updating wine: ' + id);
-    console.log(JSON.stringify(wine));
-    db.collection('wines', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-            if (err) {
-                console.log('Error updating wine: ' + err);
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(wine);
-            }
-        });
-    });
-}
-
-exports.deleteWine = function(req, res) {
-    var id = req.params.id;
-    console.log('Deleting wine: ' + id);
-    db.collection('wines', function(err, collection) {
-        collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred - ' + err});
-            } else {
-                console.log('' + result + ' document(s) deleted');
-                res.send(req.body);
-            }
-        });
-    });
-}

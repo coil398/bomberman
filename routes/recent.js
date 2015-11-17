@@ -9,7 +9,7 @@ var tableSvc = azure.createTableService(
 
 
 tableSvc.createTableIfNotExists('recenttable',function(err,created){
-    console.log('The table has been created.');
+    console.log('The recenttable got prepared.');
 });
 
 var entGen = azure.TableUtilities.entityGenerator;
@@ -73,7 +73,7 @@ exports.get = function(req,res){
         }
         res.send(result);
     });
-}
+};
 
 exports.deletetable = function(req,res){
     tableSvc.deleteTable('recenttable', function(error, response){
@@ -82,7 +82,7 @@ exports.deletetable = function(req,res){
     }
     res.send('completed');
   });
-}
+};
 
 /*
 var task = {
