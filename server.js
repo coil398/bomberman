@@ -15,6 +15,7 @@ app.configure(function () {
 // APIs for /room
 app.get('/room/index',Room_api.get_list);
 app.post('/room/create',Room_api.create);
+app.post('/room/debug',Room_api.debug);
 //app.post('/room/out',Room_api.out);
 app.delete('/room/deletetable',Room_api.deletetable);
 

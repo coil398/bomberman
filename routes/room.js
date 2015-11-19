@@ -1,11 +1,12 @@
 var azure = require('azure-storage');
-var uuid = require('node-uuid');
 
 var tableSvc = azure.createTableService(
     'sebomb',
     'UQ6l/g2eSND/QWZrvt3snq3uSKNDjD3jVIC6dw+416FFT4925uT698UVJZ0lzgdpkzEcb03zzqmFPcRZmKPtGA==',
     'https://sebomb.table.core.windows.net/'
 );
+
+var debug = false;
 
 
 tableSvc.createTableIfNotExists('roomtable',function(err,created){
@@ -25,38 +26,67 @@ var room = (function(){
         room_maxMember;
 
     var room = function(data){
-        console.log('data: ' + data);
         if(data){
             this.room_number    = data.room_number;
             this.room_name      = data.room_name;
             this.room_type      = data.room_type;
-            this.room_member    = 1;
+            this.room_member    = data.room_member ? data.room_member : 1;
             this.room_maxMember = data.room_maxMember;
         }
     }
     return room;
 })();
 
+var chkmember = function(room_num,room_mem){
+    console.log('debug: ' + debug + ' | room_mem: ' + room_mem);
+    if(room_mem == 0 && !debug){
+        tableSvc.deleteEntity('roomtable',{
+            PartitionKey: entGen.String(ROOMPARTITIONKEY),
+            RowKey      : entGen.String(room_num)
+        },function(error,res){
+            if(!error){
+                console.log('Empty rooms deleted.');
+            }
+            if(error){
+                throw error;
+            }
+        })
+        return true;
+    }
+    return false;
+};
+
+var insertData = function(data,room){
+    data.room_number    = room.RowKey._;
+    data.room_name      = room.RoomName._;
+    data.room_type      = room.RoomType._;
+    data.room_member    = room.RoomMember._;
+    data.room_maxMember = room.RoomMaxMember._;
+    return chkmember(data.room_number,data.room_member);
+}
+
 var objectizeRooms = function(rooms){
+    var tempData;
     var data = new Array();
     for(var i = 0 ; rooms.length ; i++){
         if(i == rooms.length)break;
-        data[i] = new room();
-        data[i].room_number    = rooms[i].RowKey._;
-        data[i].room_name      = rooms[i].RoomName._;
-        data[i].room_type      = rooms[i].RoomType._;
-        data[i].room_mem       = rooms[i].RoomMember._;
-        data[i].room_maxMember = rooms[i].RoomMaxMember._;
+        tempData = new room();
+        if(insertData(tempData,rooms[i]))continue;
+        data[tempData.room_number] = tempData;
     }
     return data;
 };
 
 exports.get_list = function(req,res){
+    debug = false;
     tableSvc.queryEntities('roomtable',null,null,function(error,result){
         if(!error){
             console.log('The data displayed.');
             res.send(JSON.stringify(objectizeRooms(result.entries)));
+        }else{
+            res.send('An error has occurred in get_list()');
         }
+
     });
 };
 
@@ -74,28 +104,30 @@ var createEntity = function(room){
     return entity;
 };
 
-var sender = function(res,result){
-    res.send(result);
+var createQuery = function(room_number){
+  var query;
+  if(room_number){
+      query = new azure.TableQuery()
+      .where('RowKey eq ?',room_number);
+  }else{
+      query = null;
+  }
+  return query;
 };
 
-var roomData = function(room_number,res,sender){
-    var query;
-    if(room_number){
-        query = new azure.TableQuery()
-        .where('RowKey eq ?',room_number);
-    }else{
-        query = null;
-    }
+var sendRoomData = function(room_number,res,sender){
+    var query = createQuery(room_number);
 
     tableSvc.queryEntities('roomtable',query,null,function(error,result){
         if(!error){
-            sender(JSON.stringify(objectizeRooms(result.entries)));
+            console.log(room_number);
+            res.send(JSON.stringify(objectizeRooms(result.entries)[room_number]));
         }
         if(error){
             console.log('query error');
         }
     })
-}
+};
 
 exports.create = function(req,res){
     console.log(req.body);
@@ -105,7 +137,7 @@ exports.create = function(req,res){
 
     tableSvc.insertEntity('roomtable',entity,function(error,result){
         if(error){
-            // 呼び出されるとまずい
+            // 実際の運用では、部屋を作ろうとした時にすでに
             tableSvc.updateEntity('roomtable',entity,function(error,result){
                 console.log('The data updated.');
             })
@@ -113,21 +145,24 @@ exports.create = function(req,res){
         if(!error){
             console.log('The data inserted.');
         }
-        roomData(newRoom.room_number,res,function(result){
-            res.send(result);
-        });
+        sendRoomData(newRoom.room_number,res);
     });
 };
 
-exports.get_detail = function(req,res){
-    var id = req.params.id.toString();
-    tableSvc.retrieveEntity('roomtable','recent',id,function(error,result,response){
-        if(!error){
-            console.log('The data retrieved.');
-        }
-        res.send(result);
-    });
-}
+exports.debug = function(req,res){
+    debug = true;
+
+    req.body = {
+        room_number   : '0',
+        room_name     : 'testRoom',
+        room_type     : 'debug',
+        room_member   : '0',
+        room_maxMember: '0'
+      };
+
+    exports.create(req,res);
+
+};
 
 exports.deletetable = function(req,res){
     tableSvc.deleteTable('roomtable', function(error, response){
@@ -136,4 +171,4 @@ exports.deletetable = function(req,res){
     }
     res.send('completed');
   });
-}
+};
