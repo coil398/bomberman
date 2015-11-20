@@ -37,12 +37,12 @@ var room = (function(){
     return room;
 })();
 
-var chkmember = function(room_num,room_mem){
-    console.log('debug: ' + debug + ' | room_mem: ' + room_mem);
-    if(room_mem == 0 && !debug){
+var chkMember = function(room_number,room_member,room_maxMember){
+    console.log('debug: ' + debug + ' | room_mem: ' + room_member);
+    if(room_member == 0 && !debug){
         tableSvc.deleteEntity('roomtable',{
             PartitionKey: entGen.String(ROOMPARTITIONKEY),
-            RowKey      : entGen.String(room_num)
+            RowKey      : entGen.String(room_number)
         },function(error,res){
             if(!error){
                 console.log('Empty rooms deleted.');
@@ -51,6 +51,10 @@ var chkmember = function(room_num,room_mem){
                 throw error;
             }
         })
+        return true;
+    }
+
+    if(room_member >= room_maxMember){
         return true;
     }
     return false;
@@ -62,7 +66,7 @@ var insertData = function(data,room){
     data.room_type      = room.RoomType._;
     data.room_member    = room.RoomMember._;
     data.room_maxMember = room.RoomMaxMember._;
-    return chkmember(data.room_number,data.room_member);
+    return chkMember(data.room_number,data.room_member);
 }
 
 var objectizeRooms = function(rooms){
@@ -115,13 +119,13 @@ var createQuery = function(room_number){
   return query;
 };
 
-var sendRoomData = function(room_number,res,sender){
+var getRoomData = function(room_number,res,sender){
     var query = createQuery(room_number);
 
     tableSvc.queryEntities('roomtable',query,null,function(error,result){
         if(!error){
-            console.log(room_number);
-            res.send(JSON.stringify(objectizeRooms(result.entries)[room_number]));
+            console.log('room_number: ' + room_number);
+            sender(res,objectizeRooms(result.entries)[room_number]);
         }
         if(error){
             console.log('query error');
@@ -130,6 +134,7 @@ var sendRoomData = function(room_number,res,sender){
 };
 
 exports.create = function(req,res){
+    debug = false;
     console.log(req.body);
     var newRoom = new room(req.body);
 
@@ -137,15 +142,18 @@ exports.create = function(req,res){
 
     tableSvc.insertEntity('roomtable',entity,function(error,result){
         if(error){
-            // 実際の運用では、部屋を作ろうとした時にすでに
+            // 実際の運用では、部屋を作ろうとした時にすでに部屋があればエラー返すとか
             tableSvc.updateEntity('roomtable',entity,function(error,result){
                 console.log('The data updated.');
-            })
+            });
         }
         if(!error){
             console.log('The data inserted.');
         }
-        sendRoomData(newRoom.room_number,res);
+        console.log('問題なし');
+        getRoomData(newRoom.room_number,res,function(res,result){
+            res.send(JSON.stringify(result));
+        });
     });
 };
 
@@ -170,5 +178,68 @@ exports.deletetable = function(req,res){
         console.log('all deleted');
     }
     res.send('completed');
+  });
+};
+
+var chkMemberAndAdd = function(data,addition){
+    if(chkMember(data.room_number,data.room_member,data.room_maxMember)){
+        return true;
+    }
+    data.room_member++;
+    return false;
+};
+
+exports.enter = function(req,res){
+    console.log('Entring the room number ' + req.body.room_number);
+    getRoomData(req.body.room_number,res,function(res,result){
+        console.log('result: ' + result);
+        var isFull;
+        isFull = chkMemberAndAdd(result,1);
+
+        entity = createEntity(result);
+
+        tableSvc.updateEntity('roomtable',entity,function(error){
+            if(isFull){
+                result = 'The room is already full.';
+            }
+            console.log('A person entered.');
+            res.send(JSON.stringify(result));
+        });
+    });
+
+};
+
+var deleteEmptyRooms = function(data){
+    var task = {
+        PartitionKey: entGen.String(ROOMPARTITIONKEY),
+        RowKey: entGen.Int32(data.room_number)
+    };
+
+    tableSvc.deleteEntity('roomtable',task,function(error,res){
+        if(!error){
+            console.log('An empty room deleted');
+        }
+    });
+}
+
+exports.leave = function(req,res){
+  console.log('leaving the room number ' + req.body.room_number);
+  getRoomData(req.body.room_number,res,function(res,result){
+      console.log('result: ' + result);
+      var isEmpty = false;
+      result.room_member--;
+
+      if(result.room_member == 0){
+          deleteEmptyRooms(result);
+          isEmpty = true;
+      }
+
+      entity = createEntity(result);
+
+      tableSvc.updateEntity('roomtable',entity,function(error){
+          console.log('A person left.');
+          if(isEmpty)result = 'An empty room deleted';
+          res.send(JSON.stringify(result));
+      });
   });
 };
