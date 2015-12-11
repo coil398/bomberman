@@ -1,0 +1,128 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'socket.io',
+1 verbose cli   '1.3.7' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.40
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'socket.io@0.9.10', null ]
+6 verbose cache add name=undefined spec="socket.io@0.9.10" args=["socket.io@0.9.10",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'socket.io@0.9.10',
+7 verbose parsed url   path: 'socket.io@0.9.10',
+7 verbose parsed url   href: 'socket.io@0.9.10' }
+8 verbose cache add [ '1.3.7', null ]
+9 verbose cache add name=undefined spec="1.3.7" args=["1.3.7",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: '1.3.7',
+10 verbose parsed url   path: '1.3.7',
+10 verbose parsed url   href: '1.3.7' }
+11 verbose cache add name="socket.io" spec="0.9.10" args=["socket.io","0.9.10"]
+12 verbose parsed url { protocol: null,
+12 verbose parsed url   slashes: null,
+12 verbose parsed url   auth: null,
+12 verbose parsed url   host: null,
+12 verbose parsed url   port: null,
+12 verbose parsed url   hostname: null,
+12 verbose parsed url   hash: null,
+12 verbose parsed url   search: null,
+12 verbose parsed url   query: null,
+12 verbose parsed url   pathname: '0.9.10',
+12 verbose parsed url   path: '0.9.10',
+12 verbose parsed url   href: '0.9.10' }
+13 verbose addNamed [ 'socket.io', '0.9.10' ]
+14 verbose addNamed [ '0.9.10', '0.9.10' ]
+15 silly lockFile 5127d080-socket-io-0-9-10 socket.io@0.9.10
+16 verbose lock socket.io@0.9.10 /home/vagrant/.npm/5127d080-socket-io-0-9-10.lock
+17 silly lockFile 642101d3-1-3-7 1.3.7
+18 verbose lock 1.3.7 /home/vagrant/.npm/642101d3-1-3-7.lock
+19 silly lockFile 642101d3-1-3-7 1.3.7
+20 silly lockFile 642101d3-1-3-7 1.3.7
+21 verbose addNamed [ '1.3.7', '' ]
+22 verbose addNamed [ null, '*' ]
+23 silly lockFile 5886a993-1-3-7 1.3.7@
+24 verbose lock 1.3.7@ /home/vagrant/.npm/5886a993-1-3-7.lock
+25 silly addNameRange { name: '1.3.7', range: '*', hasData: false }
+26 verbose request where is /socket.io
+27 verbose request registry https://registry.npmjs.org/
+28 verbose request id 0334cb16268a9328
+29 verbose url raw /socket.io
+30 verbose url resolving [ 'https://registry.npmjs.org/', './socket.io' ]
+31 verbose url resolved https://registry.npmjs.org/socket.io
+32 verbose request where is https://registry.npmjs.org/socket.io
+33 info trying registry request attempt 1 at 22:40:05
+34 verbose etag "1TFWA10GZYD2GC7F43J2903U8"
+35 http GET https://registry.npmjs.org/socket.io
+36 verbose request where is /1.3.7
+37 verbose request registry https://registry.npmjs.org/
+38 verbose url raw /1.3.7
+39 verbose url resolving [ 'https://registry.npmjs.org/', './1.3.7' ]
+40 verbose url resolved https://registry.npmjs.org/1.3.7
+41 verbose request where is https://registry.npmjs.org/1.3.7
+42 info trying registry request attempt 1 at 22:40:05
+43 http GET https://registry.npmjs.org/1.3.7
+44 http 304 https://registry.npmjs.org/socket.io
+45 silly registry.get cb [ 304,
+45 silly registry.get   { date: 'Mon, 30 Nov 2015 21:40:06 GMT',
+45 silly registry.get     via: '1.1 varnish',
+45 silly registry.get     'cache-control': 'max-age=60',
+45 silly registry.get     etag: '"1TFWA10GZYD2GC7F43J2903U8"',
+45 silly registry.get     age: '53',
+45 silly registry.get     connection: 'keep-alive',
+45 silly registry.get     'x-served-by': 'cache-ams4137-AMS',
+45 silly registry.get     'x-cache': 'HIT',
+45 silly registry.get     'x-cache-hits': '1',
+45 silly registry.get     'x-timer': 'S1448919606.243334,VS0,VE0',
+45 silly registry.get     vary: 'Accept' } ]
+46 verbose etag https://registry.npmjs.org/socket.io from cache
+47 silly lockFile 5127d080-socket-io-0-9-10 socket.io@0.9.10
+48 silly lockFile 5127d080-socket-io-0-9-10 socket.io@0.9.10
+49 http 404 https://registry.npmjs.org/1.3.7
+50 silly registry.get cb [ 404,
+50 silly registry.get   { 'content-type': 'application/json',
+50 silly registry.get     'cache-control': 'max-age=0',
+50 silly registry.get     'content-length': '2',
+50 silly registry.get     'accept-ranges': 'bytes',
+50 silly registry.get     date: 'Mon, 30 Nov 2015 21:40:06 GMT',
+50 silly registry.get     via: '1.1 varnish',
+50 silly registry.get     age: '0',
+50 silly registry.get     connection: 'keep-alive',
+50 silly registry.get     'x-served-by': 'cache-ams4132-AMS',
+50 silly registry.get     'x-cache': 'MISS',
+50 silly registry.get     'x-cache-hits': '0',
+50 silly registry.get     'x-timer': 'S1448919606.288590,VS0,VE96' } ]
+51 silly lockFile 5886a993-1-3-7 1.3.7@
+52 silly lockFile 5886a993-1-3-7 1.3.7@
+53 error 404 Not Found
+53 error 404
+53 error 404 '1.3.7' is not in the npm registry.
+53 error 404 You should bug the author to publish it
+53 error 404 It was specified as a dependency of 'wine-cellar'
+53 error 404
+53 error 404 Note that you can also install from a
+53 error 404 tarball, folder, or http url, or git url.
+54 error System Linux 2.6.32-504.el6.x86_64
+55 error command "/usr/bin/node" "/usr/bin/npm" "install" "socket.io" "1.3.7"
+56 error cwd /vagrant/sebomb
+57 error node -v v0.10.40
+58 error npm -v 1.4.28
+59 error code E404
+60 verbose exit [ 1, true ]
