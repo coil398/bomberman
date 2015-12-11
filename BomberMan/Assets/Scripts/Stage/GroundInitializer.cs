@@ -14,25 +14,31 @@ public class GroundInitializer : MonoBehaviour {
 
 	public Transform backgroundParent;
 
+	public Transform stageObjectParent;
+
 	#endregion
 
-	public Transform solidBlock;
-
-	public Transform explodableBlock;
-
+	public Transform[] mapObjects;
 
 	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < this.counts.x; i++)
 			for (int j = 0; j < this.counts.y; j++) {
 			 Transform cloned = (Transform)GameObject.Instantiate(this.groundTile,new Vector3(this.initialPoint.x + this.stride.x * i,this.initialPoint.y + this.stride.y * j,0),Quaternion.identity);
-			cloned.parent = this.backgroundParent;
+			 cloned.parent = this.backgroundParent;
 		}
-
+		Object objectText = Resources.Load ("map1");
+		TextAsset stageData = objectText as TextAsset;
+		StageDataScheme data = LitJson.JsonMapper.ToObject<StageDataScheme> (stageData.text);
+		for (int x = 0; x < data.width; x++)
+			for (int y = 0; y < data.height; y++) {
+			uint blockIndex = data.stage[data.width * y + x];
+			Transform cloned = (Transform)GameObject.Instantiate(this.mapObjects[blockIndex],new Vector3(this.initialPoint.x + this.stride.x * x,this.initialPoint.y + this.stride.y * y,this.stageObjectParent.transform.position.z),Quaternion.identity);
+			cloned.parent = this.stageObjectParent;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 }
