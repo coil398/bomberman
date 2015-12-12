@@ -3,19 +3,12 @@ var express = require('express'),
     Room_api = require('./routes/room');
 
 var app = express();
-var server = require('http').createServer(app);
+var server = require('http').Server(app);
 
-app.configure(function () {
-    app.set('port', process.env.PORT || 3000);
-    /*
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser()),
-    app.use(express.static(path.join(__dirname, 'public')));
-    */
-});
+var port = process.env.PORT || 3000;
 
-server.listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
+server.listen(port, function () {
+    console.log("Express server listening on port " + port);
 });
 
 var io = require('socket.io').listen(server);

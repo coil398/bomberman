@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+    <ul id="msg_list"></ul>
+    <form action="" method="post" onsubmit="return false;">
+        <input type="text" class="text" id="message"/>
+        <input type="submit" class="button" id="send" value="送信" />
+    </form>
+</body>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+// 接続
+var socket = io.connect();
+
+// サーバーから受け取るイベントを作成
+socket.on("sendMessageToClient",function(data){
+    $("#msg_list").prepend("<li>" + data.value + "</li>");
+});
+
+// ボタンクリック時に、メッセージ送信
+$("input#send").click(function(){
+    var msg = $("#message").val();
+    $("#message").val("");
+    // サーバーへ送信
+    socket.emit("sendMessageToServer",{value:msg});
+});
+</script>
+</html>
