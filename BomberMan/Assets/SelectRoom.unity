@@ -186,6 +186,7 @@ GameObject:
   - 222: {fileID: 375145047}
   - 114: {fileID: 375145046}
   - 114: {fileID: 375145049}
+  - 114: {fileID: 375145050}
   m_Layer: 5
   m_Name: Room1
   m_TagString: Untagged
@@ -257,6 +258,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b3854621d812462b8f3aad001114a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &375145050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 375145045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021b634c3a98f450d904ffca60ef6de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &402125300
@@ -337,7 +349,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 375145049}
+      - m_Target: {fileID: 375145050}
         m_MethodName: ButtonPush
         m_Mode: 1
         m_Arguments:
