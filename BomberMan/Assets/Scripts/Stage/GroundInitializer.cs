@@ -27,7 +27,7 @@ public class GroundInitializer : MonoBehaviour {
 			 Transform cloned = (Transform)GameObject.Instantiate(this.groundTile,new Vector3(this.initialPoint.x + this.stride.x * i,this.initialPoint.y + this.stride.y * j,0),Quaternion.identity);
 			 cloned.parent = this.backgroundParent;
 		}
-		Object objectText = Resources.Load ("map1");
+		Object objectText = Resources.Load ("map1");//TODO this should be dynamic
 		TextAsset stageData = objectText as TextAsset;
 		StageDataScheme data = LitJson.JsonMapper.ToObject<StageDataScheme> (stageData.text);
 		for (int x = 0; x < data.width; x++)
