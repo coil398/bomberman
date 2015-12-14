@@ -30,7 +30,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Speed
     m_Type: 1
@@ -298,7 +298,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.5833333
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1087,10 +1087,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 110217368}
-    m_Position: {x: 552, y: 144, z: 0}
+    m_Position: {x: 600, y: 108, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110292914}
-    m_Position: {x: 216, y: -72, z: 0}
+    m_Position: {x: 276, y: -84, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110231056}
     m_Position: {x: 624, y: -228, z: 0}
@@ -1102,7 +1102,7 @@ AnimatorStateMachine:
     m_Position: {x: 300, y: 24, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110209008}
-    m_Position: {x: 300, y: -180, z: 0}
+    m_Position: {x: 336, y: -192, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110218550}
     m_Position: {x: 864, y: 24, z: 0}
