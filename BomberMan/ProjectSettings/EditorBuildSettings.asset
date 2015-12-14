@@ -46,8 +46,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SelectRoom.unity
   - enabled: 1
-    path: Assets/Stages/Stage1.unity
+    path: Assets/Rooms/Room1.unity
   - enabled: 0
-    path: Assets/Stages/Stage1.unity
+    path: Assets/Rooms/Room1.unity
   - enabled: 0
-    path: Assets/Stages/Stage1.unity
+    path: Assets/Rooms/Room1.unity

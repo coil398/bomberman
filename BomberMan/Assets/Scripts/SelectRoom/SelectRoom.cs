@@ -14,7 +14,7 @@ class SelectRoom : MonoBehaviour
 
 	public void StageSceneLoad()
 	{
-		whichRoom = "Stage" + roomNumber;
+		whichRoom = "Room" + roomNumber;
 		Application.LoadLevel (whichRoom);
 	}
 }
