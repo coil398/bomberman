@@ -21,7 +21,7 @@ public class GroundInitializer : MonoBehaviour {
 	public Transform[] mapObjects;
 
 	// Use this for initialization
-	void Start () {
+	void main () {
 		for (int i = 0; i < this.counts.x; i++)
 			for (int j = 0; j < this.counts.y; j++) {
 			 Transform cloned = (Transform)GameObject.Instantiate(this.groundTile,new Vector3(this.initialPoint.x + this.stride.x * i,this.initialPoint.y + this.stride.y * j,0),Quaternion.identity);
