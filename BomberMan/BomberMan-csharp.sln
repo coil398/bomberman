@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp-firstpass.csproj", "{B6014D86-6E89-CA34-FA0A-33D6C3F81231}"
+Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp-firstpass-vs.csproj", "{B6014D86-6E89-CA34-FA0A-33D6C3F81231}"
 EndProject
-Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp.csproj", "{A23C9898-3F15-7173-75EB-EE14334A7A3B}"
+Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp-vs.csproj", "{A23C9898-3F15-7173-75EB-EE14334A7A3B}"
 EndProject
-Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp-Editor.csproj", "{0CB4A01B-F023-99FB-32A2-837D3D37FA5D}"
+Project("{C925AD40-E072-15F1-A458-5B63EE91CAF8}") = "BomberMan", "Assembly-CSharp-Editor-vs.csproj", "{0CB4A01B-F023-99FB-32A2-837D3D37FA5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																		GlobalSection(MonoDevelopProperties) = preSolution
+																																			GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
