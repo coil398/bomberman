@@ -3,19 +3,30 @@ using System.Collections;
 
 class SelectRoom : MonoBehaviour
 {
-	private int roomNumber;
+	private string roomNumber;
 	private string whichRoom;
-	
 
-	public void ClickToSelectRoom(int roomNumber)
+
+	public void ClickToSelectRoom(int room)
 	{
-		this.roomNumber = roomNumber;
-		ConnectToTheRoom();
+		this.roomNumber = room.ToString();
+		if(!ConnectToTheRoom())
+		{
+			if(PhotonNetwork.CreateRoom(roomNumber))
+			{
+				Debug.Log("The room created");
+			}
+		}
 	}
 
-	public void ConnectToTheRoom()
+	public bool ConnectToTheRoom()
 	{
-
+		if(PhotonNetwork.JoinRoom(roomNumber))
+		{
+			Debug.Log("Joined the room");
+			return true;
+		}
+		return false;
 	}
 
 	public void StageSceneLoad()
@@ -23,4 +34,10 @@ class SelectRoom : MonoBehaviour
 		whichRoom = "Room" + roomNumber;
 		Application.LoadLevel (whichRoom);
 	}
+
+	private void OnJoinedRoom()
+    {
+        Debug.Log("True");
+		StageSceneLoad();
+    }
 }

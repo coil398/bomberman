@@ -19,7 +19,6 @@ public class RoomsScript : MonoBehaviour
     private void OnPhotonRandomJoinFailed()
     {
         Debug.Log("Can't join random room");
-        PhotonNetwork.CreateRoom(null);
     }
 
     private void OnJoinedRoom()
