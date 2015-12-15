@@ -163,8 +163,11 @@
      <Compile Include="Assets\Scripts\LitJson\JsonWriter.cs" />
      <Compile Include="Assets\Scripts\LitJson\Lexer.cs" />
      <Compile Include="Assets\Scripts\LitJson\ParserToken.cs" />
-     <Compile Include="Assets\Scripts\Room\Room1\Script.cs" />
-     <Compile Include="Assets\Scripts\Room\RoomScript.cs" />
+     <Compile Include="Assets\Scripts\Room\Room1\Room1Script.cs" />
+     <Compile Include="Assets\Scripts\Room\Room2\Room2Script.cs" />
+     <Compile Include="Assets\Scripts\Room\Room3\Room3Script.cs" />
+     <Compile Include="Assets\Scripts\Room\Room4\Room4Script.cs" />
+     <Compile Include="Assets\Scripts\Room\RoomsScript.cs" />
      <Compile Include="Assets\Scripts\Room\TestButtonScript.cs" />
      <Compile Include="Assets\Scripts\SelectRoom\SelectRoom.cs" />
      <Compile Include="Assets\Scripts\Stage\GroundInitializer.cs" />

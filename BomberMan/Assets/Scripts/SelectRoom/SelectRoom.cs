@@ -5,11 +5,17 @@ class SelectRoom : MonoBehaviour
 {
 	private int roomNumber;
 	private string whichRoom;
+	
 
 	public void ClickToSelectRoom(int roomNumber)
 	{
 		this.roomNumber = roomNumber;
-		StageSceneLoad ();
+		ConnectToTheRoom();
+	}
+
+	public void ConnectToTheRoom()
+	{
+
 	}
 
 	public void StageSceneLoad()
