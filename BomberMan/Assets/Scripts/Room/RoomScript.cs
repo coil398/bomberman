@@ -1,36 +1,33 @@
 using UnityEngine;
+using System.Collections;
 
-public class RoomScript : Photon.MonoBehaviour{
+public class RoomScript : MonoBehaviour
+{
 
-    void Awake()
+    void Start()
     {
-        // マスターサーバへ接続
+        // Photonへの接続を行う
         PhotonNetwork.ConnectUsingSettings("v0.1");
     }
 
-    void Update()
-    {
-
-    }
-
-    void OnJoinedLobby()
+    void OnConnectedToMaster()
     {
         PhotonNetwork.JoinRandomRoom();
     }
 
     void OnPhotonRandomJoinFailed()
     {
-        Debug.Log("ルームへの参加に失敗しました");
+        Debug.Log("Can't join random room");
+        PhotonNetwork.CreateRoom(null);
     }
 
     void OnJoinedRoom()
     {
-        Debug.Log("ルームへの参加に成功しました");
+        Debug.Log("True");
     }
 
     void OnGUI()
     {
         GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
     }
-
 }

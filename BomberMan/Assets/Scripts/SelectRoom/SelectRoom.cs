@@ -6,7 +6,7 @@ class SelectRoom : MonoBehaviour
 	private int roomNumber;
 	private string whichRoom;
 
-	public SelectRoom(int roomNumber)
+	public void ClickToSelectRoom(int roomNumber)
 	{
 		this.roomNumber = roomNumber;
 		StageSceneLoad ();
