@@ -21,11 +21,12 @@ public class GroundInitializer : MonoBehaviour {
 	public Transform[] mapObjects;
 
 	// Use this for initialization
-	void main () {
+	void Start() {
 		for (int i = 0; i < this.counts.x; i++)
 			for (int j = 0; j < this.counts.y; j++) {
 			 Transform cloned = (Transform)GameObject.Instantiate(this.groundTile,new Vector3(this.initialPoint.x + this.stride.x * i,this.initialPoint.y + this.stride.y * j,0),Quaternion.identity);
 			 cloned.parent = this.backgroundParent;
+			cloned.position += this.backgroundParent.transform.position;
 		}
 		Object objectText = Resources.Load ("map1");//TODO this should be dynamic
 		TextAsset stageData = objectText as TextAsset;
@@ -35,6 +36,7 @@ public class GroundInitializer : MonoBehaviour {
 			uint blockIndex = data.stage[data.width * y + x];
 			Transform cloned = (Transform)GameObject.Instantiate(this.mapObjects[blockIndex],new Vector3(this.initialPoint.x + this.stride.x * x,this.initialPoint.y + this.stride.y * y,this.stageObjectParent.transform.position.z),Quaternion.identity);
 			cloned.parent = this.stageObjectParent;
+			cloned.transform.position += cloned.parent.position;
 		}
 	}
 	
