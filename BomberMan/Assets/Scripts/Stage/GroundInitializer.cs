@@ -32,7 +32,7 @@ public class GroundInitializer : MonoBehaviour {
 			 cloned.parent = this.backgroundParent;
 			cloned.position += this.backgroundParent.transform.position;
 		}
-		Object objectText = Resources.Load ("map1");//TODO this should be dynamic
+		Object objectText = Resources.Load ("map2");//TODO this should be dynamic
 		TextAsset stageData = objectText as TextAsset;
 		StageDataScheme data = JsonUtility.FromJson<StageDataScheme> (stageData.text);
 		this.instanciatedStageObjects = new Transform[data.width * data.height];
