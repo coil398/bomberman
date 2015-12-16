@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A23C9898-3F15-7173-75EB-EE14334A7A3B}</ProjectGuid>
+    <ProjectGuid>{F9BF3DFD-1F25-CFB3-8994-3F90AD295E2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -45,22 +45,61 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Character\CharacterMotionProvider.cs" />
-     <Compile Include="Assets\Scripts\Character\PlayerCharacterMotionProvider.cs" />
-     <Compile Include="Assets\Scripts\Connection\ConnectionToNode.cs" />
-     <Compile Include="Assets\Scripts\SelectRoom\SelectRoom.cs" />
-     <Compile Include="Assets\Scripts\Stage\GroundInitializer.cs" />
-     <Compile Include="Assets\Scripts\Stage\StageDataScheme.cs" />
-     <Compile Include="Assets\Scripts\title\SceneLoadScript.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiButtonEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiInputTextEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiListEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiPopupEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiSliderEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiTabsEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiTextAreaEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiToggleEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\Elements\InstantGuiWindowEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\InstantGuiEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\InstantGuiElementEditor.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\InstantGuiInspector.cs" />
+     <Compile Include="Assets\Plugins\InstantGui\Scripts\Editor\InstantGuiStyleSetEditor.cs" />
      <None Include="Assets\Movinarc\PackageUninstaller\README.txt" />
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/EditorTestsRunner/Editor/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.EditorTestsRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/EditorTestsRunner/Editor/UnityEditor.EditorTestsRunner.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="SharpCompress.3.5">
+ <HintPath>/Users/kawasetakumi/Vagrant/CentOS66/sebomb/BomberMan/Assets/Movinarc/PackageUninstaller/Editor/SharpCompress.3.5.dll</HintPath>
+ </Reference>
  <Reference Include="UIComponents">
  <HintPath>/Users/kawasetakumi/Vagrant/CentOS66/sebomb/BomberMan/Assets/Plugins/UIComponents/UIComponents.dll</HintPath>
+ </Reference>
+ <Reference Include="UICreator">
+ <HintPath>/Users/kawasetakumi/Vagrant/CentOS66/sebomb/BomberMan/Assets/Plugins/UIComponents/Editor/UICreator.dll</HintPath>
+ </Reference>
+ <Reference Include="UIEditor">
+ <HintPath>/Users/kawasetakumi/Vagrant/CentOS66/sebomb/BomberMan/Assets/Plugins/UIComponents/Editor/UIEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.OSXStandalone.Extensions">
+ <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
