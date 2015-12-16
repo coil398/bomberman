@@ -25,7 +25,7 @@ exports.GetRoomList = function(result){
         for(var i = 0 ; i < 4 ; i ++){
             roomData[i] = room[i]['dataValues'];
         }
-        result(roomData);
+        result(JSON.stringify(roomData));
     });
 
     /*

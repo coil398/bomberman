@@ -2,6 +2,7 @@
 
 var sys = require('util');
 var net = require('net');
+var DB = require('./accessToDB');
 
 
 var sockets = new Array();

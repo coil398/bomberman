@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\Character\CharacterMotionProvider.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacterMotionProvider.cs" />
      <Compile Include="Assets\Scripts\Connection\ConnectionToNode.cs" />
+     <Compile Include="Assets\Scripts\Connection\MoveToConnectionTest.cs" />
      <Compile Include="Assets\Scripts\SelectRoom\SelectRoom.cs" />
      <Compile Include="Assets\Scripts\Stage\GroundInitializer.cs" />
      <Compile Include="Assets\Scripts\Stage\StageDataScheme.cs" />

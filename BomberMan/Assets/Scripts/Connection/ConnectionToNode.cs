@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 
+delegate void GetRoomList();
+
 public class ConnectionToNode : MonoBehaviour
 {
 	internal Boolean socketReady = false;
