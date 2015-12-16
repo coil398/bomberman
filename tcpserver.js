@@ -27,6 +27,8 @@ var server = net.createServer(function (socket) {
             sys.puts( "policy file requested\n");
             socket.write( "\n" );
         } else {
+            console.log('Data demanded for: ' + data);
+
             socket.write( "message from " + socket.addrString + ":" + socket.counter + " : " + data);
         }
 

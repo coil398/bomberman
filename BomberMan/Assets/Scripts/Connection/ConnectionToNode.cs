@@ -23,7 +23,6 @@ public class ConnectionToNode : MonoBehaviour
 		Boolean b = Security.PrefetchSocketPolicy("127.0.0.1",7000,3000);
 		Debug.Log("b:"+b);
 		setupSocket();
-		writeSocket("aaaaaaaaa");
 	}
 
 	void Update(){}
@@ -48,6 +47,7 @@ public class ConnectionToNode : MonoBehaviour
 	// Sending data to the socket
 	public void writeSocket(string theLine)
 	{
+		Debug.Log("here");
 		if(!socketReady)return;
 
 		String foo = theLine + "\n";
