@@ -32,7 +32,7 @@ var server = net.createServer(function (socket) {
             if(data[0] == "R"){
                 DB.GetRoomList(function(result){
                     console.log('Sending: ' + result);
-                    socket.write(result);
+                    socket.write('result');
                 });
             }else{
                 socket.write('nothing');
