@@ -61,14 +61,14 @@ public class ConnectionToNode : MonoBehaviour
 	// Reading from the socket
 	public String readSocket()
 	{
-		var data
-		if(!socketReady)return "";
+		if(!socketReady)
+		{
+			return "";
+		}
 
 		if(theStream.DataAvailable)
 		{
-			data = theReader.ReadLine();
-			writeSocket("");
-			return data;
+			return theReader.ReadLine();
 		}
 
 		return "";
