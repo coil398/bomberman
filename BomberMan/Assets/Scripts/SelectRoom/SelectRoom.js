@@ -1,16 +1,19 @@
 var p;
 
+function awake(){
+
+}
+
 function Start () {
     p = GetComponent("ConnectionToNode");
 }
-
 
 function Update () {
 }
 
 function OnGUI(){
     if(GUI.Button(Rect(200,40,200,60),"Send")){
-        p.writeSocket("test");
+        p.writeSocket("ROOMDATA");
     }
 
     if(GUI.Button(Rect(200,120,200,60),"Send")){

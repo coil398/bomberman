@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Net.Sockets;
@@ -55,12 +56,20 @@ public class ConnectionToNode : MonoBehaviour
 		theWriter.Flush();
 	}
 
+
+
 	// Reading from the socket
 	public String readSocket()
 	{
+		var data
 		if(!socketReady)return "";
 
-		if(theStream.DataAvailable)return theReader.ReadLine();
+		if(theStream.DataAvailable)
+		{
+			data = theReader.ReadLine();
+			writeSocket("");
+			return data;
+		}
 
 		return "";
 	}
@@ -76,5 +85,10 @@ public class ConnectionToNode : MonoBehaviour
 		socketReady = false;
 	}
 
+
+}
+
+[Serializable]
+public class RoomData{
 
 }

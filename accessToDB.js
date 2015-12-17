@@ -18,13 +18,17 @@ var Room = sequelize.define('Room',{
 var room = Room.build();
 
 exports.GetRoomList = function(result){
+    console.log("CallingForRoomList");
     var roomData = new Array();
     Room.findAll({
         attributes:['RoomNumber','NumberOfPeople']
     }).then(function(room){
         for(var i = 0 ; i < 4 ; i ++){
-            roomData[i] = room[i]['dataValues'];
+            roomData[i+1] = room[i]['dataValues'];
         }
+        roomData[0] = {
+            DataState : 'RoomData'
+        };
         result(JSON.stringify(roomData));
     });
 

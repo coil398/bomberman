@@ -23,13 +23,22 @@ var server = net.createServer(function (socket) {
     socket.addListener("data", function (data) {
         socket.counter ++;
 
+        if(data[0]=="")return;
+
         if( data.match( /^&lt;policy-file-request/ ) ){
             sys.puts( "policy file requested\n");
             socket.write( "\n" );
         } else {
-            console.log('Data demanded for: ' + data);
+            if(data[0] == "R"){
+                DB.GetRoomList(function(result){
+                    console.log('Sending: ' + result);
+                    socket.write(result);
+                });
+            }else{
+                socket.write('nothing');
+            }
 
-            socket.write( "message from " + socket.addrString + ":" + socket.counter + " : " + data);
+
         }
 
         console.log( "data:" + data + "\n" );
@@ -42,4 +51,4 @@ var server = net.createServer(function (socket) {
         console.log( "end. socknum:" + sockets.length);
     });
 });
-server.listen(7000, "localhost"); // サーバー待ち受け開始
+server.listen(7000, "127.0.0.1"); // サーバー待ち受け開始
