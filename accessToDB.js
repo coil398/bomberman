@@ -20,6 +20,7 @@ var room = Room.build();
 exports.GetRoomList = function(result){
     console.log("CallingForRoomList");
     var roomData = new Array();
+    /*
     Room.findAll({
         attributes:['RoomNumber','NumberOfPeople']
     }).then(function(room){
@@ -31,6 +32,26 @@ exports.GetRoomList = function(result){
         };
         result(JSON.stringify(roomData));
     });
+
+    */
+
+    roomData[0] = {
+        DataState: 'RoomData'
+    };
+
+    roomData[1] = {
+        RoomNumber: 0,
+        NumberOfPeople:0
+    };
+
+    roomData[2] = {
+        RoomNumber: 1,
+        NumberOfPeople: 1
+    };
+
+    result(JSON.stringify(roomData));
+
+
 
     /*
     roomData = Room.findAll();
