@@ -5,90 +5,30 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 
-delegate void GetRoomList();
-
 public class ConnectionToNode : MonoBehaviour
 {
-	internal Boolean socketReady = false;
-
-	TcpClient mySocket;
-	NetworkStream theStream;
-	StreamWriter theWriter;
-	StreamReader theReader;
-	String Host = "127.0.0.1";
-	Int32 Port = 7000;
-
-	void Start()
+	// Use this for initialization
+	IEnumerator Start()
 	{
-		Debug.Log("socket start\n");
-		Boolean b = Security.PrefetchSocketPolicy("127.0.0.1",7000,3000);
-		Debug.Log("b:"+b);
-		setupSocket();
-	}
-
-	void Update(){}
-
-	// Initialize a socket
-	public void setupSocket()
-	{
-		try
+		WebSocket w = new WebSocket(new Uri("ws://127.0.0.1:3000"));
+		yield return StartCoroutine(w.Connect());
+		w.SendString("Hi there");
+		int i = 0;
+		while(true)
 		{
-			mySocket = new TcpClient(Host,Port);
-			theStream = mySocket.GetStream();
-			theWriter = new StreamWriter(theStream);
-			theReader = new StreamReader(theStream);
-			socketReady = true;
+			string reply = w.RecvString();
+			if(reply != null)
+			{
+				Debug.Log("Received: " + reply);
+				w.SendString("Hi there" + i++);
+			}
+			if(w.Error != null)
+			{
+				Debug.LogError("Error: " + w.Error);
+				break;
+			}
+			yield return 0;
 		}
-		catch(Exception e)
-		{
-			Debug.Log("Socket error: " + e);
-		}
+		w.Close();
 	}
-
-	// Sending data to the socket
-	public void writeSocket(string theLine)
-	{
-		Debug.Log("here");
-		if(!socketReady)return;
-
-		String foo = theLine + "\n";
-		theWriter.Write(foo);
-		theWriter.Flush();
-	}
-
-
-
-	// Reading from the socket
-	public String readSocket()
-	{
-		if(!socketReady)
-		{
-			return "";
-		}
-
-		if(theStream.DataAvailable)
-		{
-			return theReader.ReadLine();
-		}
-
-		return "";
-	}
-
-	// Disconnecting the socket
-	public void closeSocket()
-	{
-		if(!socketReady)return;
-
-		theWriter.Close();
-		theReader.Close();
-		mySocket.Close();
-		socketReady = false;
-	}
-
-
-}
-
-[Serializable]
-public class RoomData{
-
 }
